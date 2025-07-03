@@ -1,13 +1,14 @@
 import { git } from "./git";
 import { OpenAIApi } from "openai";
 import { addCommentToPR } from "./pr";
-import { Agent } from "https";
+import { Agent as HttpsAgent } from 'https';
+import { Agent as HttpAgent } from 'http';
 import * as tl from "azure-pipelines-task-lib/task";
 
 export async function reviewFile(
   targetBranch: string,
   fileName: string,
-  httpsAgent: Agent,
+  httpsAgent: HttpsAgent | HttpAgent,
   apiKey: string,
   openai: OpenAIApi | undefined
 ) {

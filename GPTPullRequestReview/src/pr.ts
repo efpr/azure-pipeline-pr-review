@@ -1,8 +1,9 @@
 import * as tl from "azure-pipelines-task-lib/task";
-import { Agent } from 'https';
+import { Agent as HttpsAgent } from 'https';
+import { Agent as HttpAgent } from 'http';
 import fetch from 'node-fetch';
 
-export async function addCommentToPR(fileName: string, comment: string, httpsAgent: Agent) {
+export async function addCommentToPR(fileName: string, comment: string, httpsAgent: HttpsAgent | HttpAgent) {
   const body = {
     comments: [
       {
@@ -29,7 +30,7 @@ export async function addCommentToPR(fileName: string, comment: string, httpsAge
   console.log(`New comment added.`);
 }
 
-export async function deleteExistingComments(httpsAgent: Agent) {
+export async function deleteExistingComments(httpsAgent: HttpsAgent | HttpAgent) {
   console.log("Start deleting existing comments added by the previous Job ...");
 
   const threadsUrl = `${tl.getVariable('SYSTEM.TEAMFOUNDATIONCOLLECTIONURI')}${tl.getVariable('SYSTEM.TEAMPROJECTID')}/_apis/git/repositories/${tl.getVariable('Build.Repository.Name')}/pullRequests/${tl.getVariable('System.PullRequest.PullRequestId')}/threads?api-version=5.1`;
