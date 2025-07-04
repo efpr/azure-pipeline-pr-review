@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "AbreuPullRequestReview",
     "name": "Abreu Pull Request Review",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "publisher": "efpr",
     "galleryFlags": [
         "Public",
