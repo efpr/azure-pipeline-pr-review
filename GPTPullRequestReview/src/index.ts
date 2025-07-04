@@ -1,11 +1,11 @@
 import * as tl from "azure-pipelines-task-lib/task";
-import { OpenAIApi } from "openai";
+import { Configuration, OpenAIApi } from "openai";
 import { deleteExistingComments } from "./pr";
 import { reviewFile } from "./review";
 import { getTargetBranchName } from "./utils";
 import { getChangedFiles } from "./git";
 import https from "https";
-import http from 'http'; 
+import http from "http";
 
 async function run() {
   try {
@@ -28,10 +28,14 @@ async function run() {
       return;
     }
 
+    const openAiConfiguration = new Configuration({
+      apiKey: apiKey,
+    });
+
+    openai = new OpenAIApi(openAiConfiguration);
+
     const baseUrl = tl.getVariable("SYSTEM.TEAMFOUNDATIONCOLLECTIONURI") || "";
-
     const isHttps = baseUrl.startsWith("https://");
-
     const agent = isHttps
       ? new https.Agent({ rejectUnauthorized: !supportSelfSignedCertificate })
       : new http.Agent();
